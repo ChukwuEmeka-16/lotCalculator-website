@@ -1,0 +1,1 @@
+SELECT * FROM portfolio.users where email ='exa@gmail.com' and password ='trustme' ;
