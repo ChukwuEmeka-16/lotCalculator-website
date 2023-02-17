@@ -1,13 +1,15 @@
 const express = require("express");
 const cors = require( "cors");
 const bodyParser =  require("body-parser");
-const session = require("express-session")
+//const session = require("express-session")
 const {createPool} = require('mysql');
 const jwt = require('jsonwebtoken')
 const random = require('randomstring')
 const app = express()
 require('dotenv').config()
-const stripe = require('stripe')(process.env.STRIPE_KEY)
+//const stripe = require('stripe')(process.env.STRIPE_KEY)
+
+
 // middlewares
 app.use(cors())
 
@@ -48,7 +50,7 @@ const pool = createPool({
 })*/
 
 
-app.post("/Community",(req,res)=>{
+/*app.post("/Community",(req,res)=>{
 
     //res.send("awesome inded")
     const mail = req.body.email
@@ -61,7 +63,8 @@ app.post("/Community",(req,res)=>{
         res.send(true)}
     })
  
-})
+})*/
+
 
 
 app.post("/Signup",(req,res)=>{
@@ -83,11 +86,6 @@ app.post("/Signup",(req,res)=>{
     })
  
 })
-app.get("/Login",(req,res)=>{
-    res.send("hi")
-   // console.log(req.session);
-   
-})
 
 
 app.post("/Login",(req,res)=>{
@@ -105,10 +103,10 @@ app.post("/Login",(req,res)=>{
        
        if (result.length > 0) {
         const jwtsecret = random.generate()
-        
+       // console.log(result[0].name);
         const token = jwt.sign({email},jwtsecret,{expiresIn:'12h'})
 
-        res.json({success:true,token})
+        res.json({success:true,name:result[0].name ,token})
        } else {
        res.json({success:false,message:"user with this Email and password combination not found"})
       
@@ -119,9 +117,7 @@ app.post("/Login",(req,res)=>{
    
 })
 
-app.get('/Dashboard',(req,res)=>{
-   
-})
+
 
 
 app.listen(6007,(()=>console.log("running")))
